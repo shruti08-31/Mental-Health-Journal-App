@@ -30,10 +30,12 @@ public class ReflectionPrompts {
         prompts.put("stressed", stressedPrompts);
     }
 
-
     public String getRandomPrompt() {
         List<String> allPrompts = new ArrayList<>();
-        for (List<String> moodPrompts : prompts.values()) {
+        List<String> keys = new ArrayList<>(prompts.keySet());
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            List<String> moodPrompts = prompts.get(key);
             allPrompts.addAll(moodPrompts);
         }
 
@@ -55,4 +57,3 @@ public class ReflectionPrompts {
         return moodPrompts.get(index);
     }
 }
-
