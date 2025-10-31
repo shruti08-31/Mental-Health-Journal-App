@@ -8,7 +8,7 @@ public class MoodTracker {
     public String getMostCommonMood(List<JournalEntry> entries) {
         if (entries == null || entries.size() == 0) return "No data";
 
-        // Count frequency of each mood
+        // count frequency of each mood
         Map<String, Integer> moodCount = new HashMap<>();
         for (JournalEntry entry : entries) {
             String mood = entry.getMood();
