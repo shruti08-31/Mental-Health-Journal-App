@@ -13,7 +13,6 @@ public class ReflectionPrompts {
     public ReflectionPrompts() {
         prompts = new HashMap<>();
 
-        // Prompts for different moods
         List<String> happyPrompts = new ArrayList<>();
         happyPrompts.add("What made you smile today?");
         happyPrompts.add("Who are you grateful for today?");
@@ -26,17 +25,14 @@ public class ReflectionPrompts {
         stressedPrompts.add("What’s taking most of your energy?");
         stressedPrompts.add("What could you let go of today?");
 
-        // Putting all mood prompts into the map
         prompts.put("happy", happyPrompts);
         prompts.put("sad", sadPrompts);
         prompts.put("stressed", stressedPrompts);
     }
 
-    // Method to get a random prompt from all available prompts
+
     public String getRandomPrompt() {
         List<String> allPrompts = new ArrayList<>();
-
-        // Add all prompts from all moods
         for (List<String> moodPrompts : prompts.values()) {
             allPrompts.addAll(moodPrompts);
         }
@@ -46,7 +42,6 @@ public class ReflectionPrompts {
         return allPrompts.get(index);
     }
 
-    // Method to get a random prompt based on user's mood
     public String getPromptByMood(String mood) {
         mood = mood.toLowerCase();
         List<String> moodPrompts = prompts.get(mood);
