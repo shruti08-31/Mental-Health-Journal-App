@@ -8,7 +8,6 @@ public class MoodTracker {
     public String getMostCommonMood(List<JournalEntry> entries) {
         if (entries == null || entries.size() == 0) 
             return "No data";
-
         // count frequency of each mood
          Map<String, Integer> moodCount = new HashMap<>();
 
@@ -25,8 +24,6 @@ public class MoodTracker {
         moodCount.put(mood, 1);
     }
 }
-
-
         // Find most common mood
         String mostCommon = null;
         int maxCount = 0;
@@ -44,7 +41,6 @@ public class MoodTracker {
 
     public double getPositiveMoodPercentage(List<JournalEntry> entries) {
         if (entries == null || entries.size() == 0) return 0;
-
         // Count positive moods
         int positiveCount = 0;
      for (JournalEntry entry : entries) {
@@ -52,12 +48,10 @@ public class MoodTracker {
      if (mood == null) {
         continue; 
       }
-
       if (mood.equalsIgnoreCase("happy") || mood.equalsIgnoreCase("grateful") || mood.equalsIgnoreCase("calm")) {
             positiveCount++;
     }
 }
-
         return (positiveCount * 100.0) / entries.size();
     }
 }
