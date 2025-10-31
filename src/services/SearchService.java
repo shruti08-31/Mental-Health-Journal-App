@@ -9,8 +9,9 @@ public class SearchService {
     public List<JournalEntry> searchByKeyword(List<JournalEntry> entries, String keyword) {
         List<JournalEntry> result = new ArrayList<>();
         String lowerKeyword = keyword.toLowerCase();
+
         for (JournalEntry entry : entries) {
-            if (entry.getNotes().toLowerCase().contains(lowerKeyword)) {
+            if (entry.getContent().toLowerCase().contains(lowerKeyword)) {
                 result.add(entry);
             }
         }
