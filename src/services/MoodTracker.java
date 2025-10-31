@@ -6,15 +6,26 @@ import java.util.*;
 public class MoodTracker {
 
     public String getMostCommonMood(List<JournalEntry> entries) {
-        if (entries == null || entries.size() == 0) return "No data";
+        if (entries == null || entries.size() == 0) 
+            return "No data";
 
         // count frequency of each mood
-        Map<String, Integer> moodCount = new HashMap<>();
+         Map<String, Integer> moodCount = new HashMap<>();
+
         for (JournalEntry entry : entries) {
-            String mood = entry.getMood();
-            if (mood == null) continue;
-            moodCount.put(mood, moodCount.getOrDefault(mood, 0) + 1);
+        String mood = entry.getMood();
+        if (mood == null) {
+            continue; 
         }
+
+        if (moodCount.containsKey(mood)) {
+        moodCount.put(mood, moodCount.get(mood) + 1);
+        } 
+        else {
+        moodCount.put(mood, 1);
+    }
+}
+
 
         // Find most common mood
         String mostCommon = null;
@@ -25,7 +36,10 @@ public class MoodTracker {
                 mostCommon = pair.getKey();
             }
         }
-        return mostCommon != null ? mostCommon : "No data";
+         if (mostCommon == null) {
+                return "No data";
+        }
+        return mostCommon;
     }
 
     public double getPositiveMoodPercentage(List<JournalEntry> entries) {
@@ -33,15 +47,17 @@ public class MoodTracker {
 
         // Count positive moods
         int positiveCount = 0;
-        for (JournalEntry entry : entries) {
-            String mood = entry.getMood();
-            if (mood == null) continue;
-            if (mood.equalsIgnoreCase("happy") || 
-                mood.equalsIgnoreCase("grateful") || 
-                mood.equalsIgnoreCase("calm")) {
-                positiveCount++;
-            }
-        }
+     for (JournalEntry entry : entries) {
+     String mood = entry.getMood();
+     if (mood == null) {
+        continue; 
+      }
+
+      if (mood.equalsIgnoreCase("happy") || mood.equalsIgnoreCase("grateful") || mood.equalsIgnoreCase("calm")) {
+            positiveCount++;
+    }
+}
+
         return (positiveCount * 100.0) / entries.size();
     }
 }
