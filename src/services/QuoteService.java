@@ -25,8 +25,6 @@ public class QuoteService {
         "You owe yourself the love you so freely give others.",
         "Peace begins with a deep breath.",
         "Self-care is giving the world the best of you, not what’s left of you.",
-
-        // 💪 Resilience & Growth
         "Fall seven times, stand up eight.",
         "Difficult roads often lead to beautiful destinations.",
         "Storms make trees take deeper roots.",
