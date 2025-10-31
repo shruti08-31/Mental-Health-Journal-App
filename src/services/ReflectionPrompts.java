@@ -6,12 +6,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import java.util.*;
+
+import java.util.*;
+
 public class ReflectionPrompts {
 
     private Map<String, List<String>> prompts;
+    private List<String> knownKeys;
 
     public ReflectionPrompts() {
         prompts = new HashMap<>();
+        knownKeys = new ArrayList<>();
 
         List<String> happyPrompts = new ArrayList<>();
         happyPrompts.add("What made you smile today?");
@@ -28,15 +34,20 @@ public class ReflectionPrompts {
         prompts.put("happy", happyPrompts);
         prompts.put("sad", sadPrompts);
         prompts.put("stressed", stressedPrompts);
+
+        knownKeys.add("happy");
+        knownKeys.add("sad");
+        knownKeys.add("stressed");
     }
 
     public String getRandomPrompt() {
         List<String> allPrompts = new ArrayList<>();
-        List<String> keys = new ArrayList<>(prompts.keySet());
-        for (int i = 0; i < keys.size(); i++) {
-            String key = keys.get(i);
+        for (int i = 0; i < knownKeys.size(); i++) {
+            String key = knownKeys.get(i);
             List<String> moodPrompts = prompts.get(key);
-            allPrompts.addAll(moodPrompts);
+            for (int j = 0; j < moodPrompts.size(); j++) {
+                allPrompts.add(moodPrompts.get(j));
+            }
         }
 
         Random random = new Random();
@@ -48,8 +59,8 @@ public class ReflectionPrompts {
         mood = mood.toLowerCase();
         List<String> moodPrompts = prompts.get(mood);
 
-        if (moodPrompts == null || moodPrompts.isEmpty()) {
-            return "Write whatever’s on your mind.";
+        if (moodPrompts == null || moodPrompts.size() == 0) {
+            return "Write what's in your mind.";
         }
 
         Random random = new Random();
