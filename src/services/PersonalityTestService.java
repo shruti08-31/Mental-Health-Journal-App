@@ -1,21 +1,28 @@
-package services;
+package service;
 
-import java.util.*;
+import java.util.Scanner;
 
 public class PersonalityTestService {
-    private final Map<Integer, String[]> questions = new LinkedHashMap<>();
-    public PersonalityTestService() {
-        questions.put(1, new String[]{"Do you prefer to focus on the outer world or your inner world? (outer/inner)"});
-        questions.put(2, new String[]{"Do you prefer to focus on basic information or interpret meaning? (info/meaning)"});
-        questions.put(3, new String[]{"Do you prefer to make decisions based on logic or people? (logic/people)"});
-        questions.put(4, new String[]{"Do you prefer a planned lifestyle or spontaneous? (planned/spontaneous)"});
-    }
 
-    public String runSampleTest(List<String> answers) {
-        StringBuilder sb = new StringBuilder();
-        if (answers.size() < 4) {
-            return "INFP";
-        }
-        return sb.toString();
+    public String takeTest() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Quick Personality Test:");
+        System.out.println("1: Do you enjoy social gatherings? (yes/no)");
+        String a1 = sc.nextLine();
+        System.out.println("2: Do you rely on facts more than feelings? (yes/no)");
+        String a2 = sc.nextLine();
+        System.out.println("3: Do you plan ahead? (yes/no)");
+        String a3 = sc.nextLine();
+        System.out.println("4: Do you often think deeply? (yes/no)");
+        String a4 = sc.nextLine();
+
+        String type = "";
+        type += a1.equalsIgnoreCase("yes") ? "E" : "I";
+        type += a2.equalsIgnoreCase("yes") ? "S" : "N";
+        type += a3.equalsIgnoreCase("yes") ? "J" : "P";
+        type += a4.equalsIgnoreCase("yes") ? "T" : "F";
+
+        System.out.println("Your personality type is: " + type);
+        return type;
     }
 }
