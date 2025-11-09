@@ -6,8 +6,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class MoodSupportService {
-
-    // Respond kindly based on the tone of the user's journal entry
     public String giveEmotionalResponse(String mood) {
         if (mood == null) return "Thanks for sharing your thoughts.";
 
@@ -26,41 +24,38 @@ public class MoodSupportService {
         }
     }
 
-    // Send a soft reminder if the user hasn’t written for 3 or more days
     public String gentleReminderIfInactive(User user) {
         if (user == null || user.getLastEntryDate() == null) {
             return "Hey there, how have you been? Would you like to write something today?";
         }
 
-        // Calculate days difference using toEpochDay()
         long daysSinceLastEntry = LocalDate.now().toEpochDay() - user.getLastEntryDate().toEpochDay();
 
         if (daysSinceLastEntry >= 3) {
             return "It’s been a while since your last entry. Want to jot down a few thoughts today?";
         } else {
-            return ""; // no reminder needed
+            return "";
         }
     }
 
-    // Encourage based on emotional trend (if moodScore has improved or dropped)
     public String giveEncouragement(User user, int previousScore, int currentScore) {
-        if (user == null) return "";
+        if (user == null) 
+            return "";
 
         if (currentScore > previousScore) {
             return "You’re doing great! Your emotional energy seems to be lifting.";
-        } else if (currentScore < previousScore) {
+        } 
+        else if (currentScore < previousScore) {
             return "Be gentle with yourself today. Maybe take a short break or deep breath.";
-        } else {
+        } 
+        else {
             return "Keep going — steady progress matters too!";
         }
     }
-
-    // Detect repeating moods (e.g., “sad” for 3–5 days)
     public String checkRepeatedMoodPattern(List<JournalEntry> recentEntries) {
         if (recentEntries == null || recentEntries.size() < 3) {
             return "";
         }
-
         String latestMood = recentEntries.get(recentEntries.size() - 1).getMood();
         int repeatCount = 1;
 
@@ -68,7 +63,8 @@ public class MoodSupportService {
             String mood = recentEntries.get(i).getMood();
             if (mood != null && mood.equalsIgnoreCase(latestMood)) {
                 repeatCount++;
-            } else {
+            } 
+            else {
                 break;
             }
         }
@@ -77,11 +73,8 @@ public class MoodSupportService {
             return "You’ve been feeling " + latestMood.toLowerCase() +
                    " lately — want to explore what might be causing it?";
         }
-
         return "";
     }
-
-    // Combined method for journaling completion feedback
     public String respondAfterWriting(User user, String mood, int previousScore, int currentScore) {
         String message = giveEmotionalResponse(mood);
         message += "\n" + giveEncouragement(user, previousScore, currentScore);
