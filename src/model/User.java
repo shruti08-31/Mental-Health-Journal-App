@@ -1,76 +1,39 @@
 package model;
 
-import java.time.LocalDate;
 import java.util.*;
 
 public class User {
-    private final String username;
-    private String password; 
+    private String username;
+    private String password;
     private String personalityType;
-    private double moodScore = 0.0;
-    private int currentStreak = 0;
-    private LocalDate lastJournalDate;
-    private List<String> achievements = new ArrayList<>();
-    private Map<String, Object> metadata = new HashMap<>();
+    private int moodScore;
+    private int streakCount;
+    private List<JournalEntry> entries = new ArrayList<>();
+    private Date lastJournalDate;
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+        this.moodScore = 50;
+        this.streakCount = 0;
+        this.lastJournalDate = null;
     }
 
-    public String getUsername() { 
-        return username; 
-    }
-    public String getPassword() { 
-        return password; 
-    }
-    public void setPassword(String password) { 
-        this.password = password; 
+    public String getUsername() { return username; }
+    public String getPersonalityType() { return personalityType; }
+    public void setPersonalityType(String type) { this.personalityType = type; }
+
+    public void addEntry(JournalEntry entry) {
+        entries.add(entry);
+        lastJournalDate = new Date();
     }
 
-    public String getPersonalityType() { 
-        return personalityType; 
-    }
-    public void setPersonalityType(String personalityType) { 
-            this.personalityType = personalityType; 
-    }
+    public List<JournalEntry> getEntries() { return entries; }
+    public int getMoodScore() { return moodScore; }
+    public void setMoodScore(int moodScore) { this.moodScore = moodScore; }
 
-    public double getMoodScore() { 
-        return moodScore; 
-    }
-    public void setMoodScore(double moodScore) { 
-        this.moodScore = moodScore; 
-    }
+    public int getStreakCount() { return streakCount; }
+    public void setStreakCount(int streakCount) { this.streakCount = streakCount; }
 
-    public int getCurrentStreak() { 
-        return currentStreak; 
-    }
-    public void setCurrentStreak(int currentStreak) { 
-        this.currentStreak = currentStreak; 
-    }
-
-    public LocalDate getLastJournalDate() { 
-        return lastJournalDate; 
-    }
-    public void setLastJournalDate(LocalDate lastJournalDate) { 
-        this.lastJournalDate = lastJournalDate; 
-    }
-
-    public List<String> getAchievements() { 
-        return achievements; 
-    }
-    public void addAchievement(String a) { 
-        if (!achievements.contains(a)) achievements.add(a); 
-    }
-
-    public Map<String, Object> getMetadata() { 
-        return metadata; 
-    }
-
-    @Override
-    public String toString() {
-        return String.format("user(%s, personality=%s, score=%.2f, streak=%d)",
-                username, personalityType, moodScore, currentStreak);
-    }
+    public Date getLastJournalDate() { return lastJournalDate; }
 }
-
