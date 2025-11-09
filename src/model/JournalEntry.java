@@ -1,40 +1,56 @@
 package model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 public class JournalEntry {
-    private String title;     // Tag (mood + date)
-    private String content;   // Reflection answer
-    private LocalDate date;
-    private String mood;
+    private final UUID id = UUID.randomUUID();
+    private final String user; 
+    private final String mood; 
+    private final String title; 
+    private final String content;
+    private final LocalDateTime createdAt;
+    private final List<String> tags = new ArrayList<>();
 
-    public JournalEntry(String title, String content, String mood, LocalDate date) {
-        this.title = title;
+    public JournalEntry(String user, String mood, String content) {
+        this.user = user;
+        this.mood = mood.toLowerCase();
         this.content = content;
-        this.mood = mood;
-        this.date = date;
+        this.createdAt = LocalDateTime.now();
+        this.title = generateTag();
+        this.tags.add(this.title);
     }
 
-    public String getTitle() {
-        return title;
+    private String generateTag() {
+        String ts = createdAt.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return mood + "_" + ts;
     }
 
-    public String getContent() {
-        return content;
+    public UUID getId() { 
+        return id; 
     }
-
-    public LocalDate getDate() {
-        return date;
+    public String getUser() { 
+        return user; 
     }
-
-    public String getMood() {
-        return mood;
+    public String getMood() { 
+        return mood; 
+    }
+    public String getTitle() { 
+        return title; 
+    }
+    public String getContent() { 
+        return content; 
+    }
+    public LocalDateTime getCreatedAt() { 
+        return createdAt; 
+    }
+    public List<String> getTags() { 
+        return tags; 
     }
 
     @Override
     public String toString() {
-        return "Entry{" + " title='" + title + '\'' + ", mood='" + mood + '\'' + ", date=" + date + ", content='" + content + '\'' + '}';
+        return String.format("JournalEntry(%s, %s, %s)", user, title, mood);
     }
 }
