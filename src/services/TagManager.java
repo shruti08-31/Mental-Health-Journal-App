@@ -1,14 +1,12 @@
-package services;
+package service;
 
-import java.time.LocalDate;
-import java.util.*;
-import model.Tag;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class TagManager {
-    public Tag createTag(String mood) {
-        LocalDate today = LocalDate.now();
-        Tag tag = new Tag(mood, today);
-        System.out.println("Created tag: " + tag);
-        return tag;
+
+    public String createTag(String mood) {
+        String ts = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+        return mood.toLowerCase() + "_" + ts;
     }
 }
