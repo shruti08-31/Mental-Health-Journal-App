@@ -1,12 +1,9 @@
-package services;
+package service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class TagManager {
-
-    public String createTag(String mood) {
-        String ts = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-        return mood.toLowerCase() + "_" + ts;
+    public String makeTag(String mood) {
+        return mood + "_" + LocalDateTime.now();
     }
 }
