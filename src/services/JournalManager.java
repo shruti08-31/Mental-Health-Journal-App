@@ -1,22 +1,28 @@
 package services;
 
 import model.JournalEntry;
-import java.time.LocalDate;
 import java.util.*;
 
 public class JournalManager {
     private List<JournalEntry> entries = new ArrayList<>();
 
-    public void addEntry(JournalEntry e) {
-        entries.add(e);
+    public JournalEntry createEntry(String mood, String content) {
+        JournalEntry entry = new JournalEntry(mood, content);
+        entries.add(entry);
+        return entry;
     }
 
-    public boolean deleteEntry(int id) {
-        return entries.removeIf(e -> e.getId() == id);
+    public List<String> getRecentMoods(int count) {
+        List<String> moods = new ArrayList<>();
+        int start = Math.max(0, entries.size() - count);
+        for (int i = start; i < entries.size(); i++) {
+            moods.add(entries.get(i).getMood());
+}
+
+        return moods;
     }
 
     public List<JournalEntry> getAllEntries() {
-        return new ArrayList<>(entries);
+        return entries;
     }
 }
-
