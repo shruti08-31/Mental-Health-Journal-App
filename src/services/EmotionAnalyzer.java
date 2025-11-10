@@ -1,7 +1,8 @@
 package services;
 
 import model.User;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class EmotionAnalyzer {
 
@@ -22,21 +23,18 @@ public class EmotionAnalyzer {
         }
         int clampedScore = Math.max(0, Math.min(100, score));
         user.setMoodScore(clampedScore);
-
     }
 
     public void updateStreak(User user) {
-        Date lastDate = user.getLastJournalDate();
-        Date now = new Date();
+        LocalDate lastDate = user.getLastJournalDate();
+        LocalDate now = LocalDate.now();
 
         if (lastDate == null) {
             user.setStreakCount(1);
         } 
         else {
-            long diff = now.getTime() - lastDate.getTime();
-            long days = diff / (1000 * 60 * 60 * 24);
-
-            if (days == 1) 
+            long days = ChronoUnit.DAYS.between(lastDate, now);
+            if (days == 1)
                 user.setStreakCount(user.getStreakCount() + 1);
             else if (days > 1)
                 user.setStreakCount(1);
