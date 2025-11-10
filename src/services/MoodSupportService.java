@@ -1,83 +1,47 @@
 package services;
 
 import model.User;
-import model.JournalEntry;
 import java.time.LocalDate;
-import java.util.List;
+import java.time.temporal.ChronoUnit;
 
-public class MoodSupportService {
-    public String giveEmotionalResponse(String mood) {
-        if (mood == null) return "Thanks for sharing your thoughts.";
+public class MoodRecommendationService {
 
-        switch (mood.toLowerCase()) {
-            case "sad":
-            case "angry":
-            case "anxious":
-            case "stressed":
-                return "It’s completely okay to feel that way. You’re doing your best.";
-            case "happy":
-            case "excited":
-            case "joyful":
-                return "Your positivity is shining through today!";
-            default:
-                return "Thanks for expressing how you feel today.";
-        }
-    }
-
-    public String gentleReminderIfInactive(User user) {
-        if (user == null || user.getLastEntryDate() == null) {
-            return "Hey there, how have you been? Would you like to write something today?";
-        }
-
-        long daysSinceLastEntry = LocalDate.now().toEpochDay() - user.getLastEntryDate().toEpochDay();
-
-        if (daysSinceLastEntry >= 3) {
-            return "It’s been a while since your last entry. Want to jot down a few thoughts today?";
-        } else {
-            return "";
-        }
-    }
-
-    public String giveEncouragement(User user, int previousScore, int currentScore) {
-        if (user == null) 
-            return "";
-
-        if (currentScore > previousScore) {
-            return "You’re doing great! Your emotional energy seems to be lifting.";
+    public String giveSupportMessage(String tone) {
+        if ("positive".equals(tone)) {
+            return "Your positivity is shining through!";
         } 
-        else if (currentScore < previousScore) {
-            return "Be gentle with yourself today. Maybe take a short break or deep breath.";
+        else if ("negative".equals(tone)) {
+            return "It’s completely okay to feel that way. You’re doing your best.";
         } 
         else {
-            return "Keep going — steady progress matters too!";
+            return "Thanks for sharing your thoughts today.";
         }
     }
-    public String checkRepeatedMoodPattern(List<JournalEntry> recentEntries) {
-        if (recentEntries == null || recentEntries.size() < 3) {
-            return "";
-        }
-        String latestMood = recentEntries.get(recentEntries.size() - 1).getMood();
-        int repeatCount = 1;
 
-        for (int i = recentEntries.size() - 2; i >= 0; i--) {
-            String mood = recentEntries.get(i).getMood();
-            if (mood != null && mood.equalsIgnoreCase(latestMood)) {
-                repeatCount++;
-            } 
-            else {
-                break;
-            }
+    public String remindUserIfInactive(User user) {
+        
+        LocalDate lastDate = user.getLastJournalDate(); 
+
+        if (lastDate == null) {
+            return "How have you been feeling lately? Want to jot a quick note?";
         }
 
-        if (repeatCount >= 3) {
-            return "You’ve been feeling " + latestMood.toLowerCase() +
-                   " lately — want to explore what might be causing it?";
+        long days = ChronoUnit.DAYS.between(lastDate, LocalDate.now());
+        if (days >= 3) {
+            return "You haven’t written in a while — want to check in?";
         }
-        return "";
+
+        return null;
     }
-    public String respondAfterWriting(User user, String mood, int previousScore, int currentScore) {
-        String message = giveEmotionalResponse(mood);
-        message += "\n" + giveEncouragement(user, previousScore, currentScore);
-        return message;
+
+    public String encourageBasedOnMood(User user) {
+        int score = user.getMoodScore();
+        if (score > 70) {
+            return "Your positivity is shining through!";
+        }
+        if (score < 40) {
+            return "Be gentle with yourself today. Maybe take a short break.";
+        }
+        return "Keep expressing yourself — you’re doing great!";
     }
 }
