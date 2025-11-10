@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-   private String username;
+    private String username;
     private String password;
     private String personalityType;
-    private int moodScore;         
-    private int streak;             
-    private LocalDate lastEntryDate;
+    private int moodScore;
+    private int streakCount;            // renamed for consistency
+    private LocalDate lastJournalDate;  // renamed for consistency
     private List<JournalEntry> journalEntries;
 
     public User(String username, String password) {
@@ -18,7 +18,7 @@ public class User {
         this.password = password;
         this.personalityType = "Unknown";
         this.moodScore = 0;
-        this.streak = 0;
+        this.streakCount = 0;
         this.journalEntries = new ArrayList<>();
     }
 
@@ -55,12 +55,12 @@ public class User {
         this.moodScore = moodScore;
     }
 
-    public int getStreak() {
-        return streak;
+    public int getStreakCount() {
+        return streakCount;
     }
 
-    public void setStreak(int streak) {
-        this.streak = streak;
+    public void setStreakCount(int streakCount) {
+        this.streakCount = streakCount;
     }
 
     public List<JournalEntry> getJournalEntries() {
@@ -69,29 +69,35 @@ public class User {
 
     public void addJournalEntry(JournalEntry entry) {
         this.journalEntries.add(entry);
-        this.lastEntryDate = entry.getDate(); 
-    }
-    public LocalDate getLastEntryDate() {
-        return lastEntryDate;
+        this.lastJournalDate = entry.getDate();  // update last journal date
     }
 
-    public void setLastEntryDate(LocalDate lastEntryDate) {
-        this.lastEntryDate = lastEntryDate;
+    public LocalDate getLastJournalDate() {
+        return lastJournalDate;
+    }
+
+    public void setLastJournalDate(LocalDate lastJournalDate) {
+        this.lastJournalDate = lastJournalDate;
     }
 
     public void increaseStreak() {
-        this.streak++;
+        this.streakCount++;
     }
 
     public void resetStreak() {
-        this.streak = 0;
+        this.streakCount = 0;
     }
 
     public void updateMoodScore(int value) {
         this.moodScore += value;
     }
 
+    @Override
     public String toString() {
-        return "User: " + username + "\nPersonality Type: " + personalitytype + "\nmood score: " + moodScore + "\nstreak: " + streak + "\nLast entry date: " + (lastEntryDate != null ? lastEntryDate : "None");
+        return "User: " + username
+                + "\nPersonality Type: " + personalityType
+                + "\nMood Score: " + moodScore
+                + "\nStreak Count: " + streakCount
+                + "\nLast Journal Date: " + (lastJournalDate != null ? lastJournalDate : "None");
     }
 }
