@@ -1,47 +1,37 @@
 package services;
 
 import model.User;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
-public class MoodRecommendationService {
+public class MoodSupportService {
 
-    public String giveSupportMessage(String tone) {
-        if ("positive".equals(tone)) {
-            return "Your positivity is shining through!";
+    public String getSupportMessage(String tone) {
+        switch (tone.toLowerCase()) {
+            case "positive":
+                return "Keep spreading positivity today! Maybe share your happiness with someone you care about.";
+            case "grateful":
+                return "Write down three things you’re thankful for today — gratitude deepens joy.";
+            case "motivated":
+                return "Use this energy to make progress toward something meaningful! Stay consistent.";
+            case "negative":
+                return "It’s okay to feel low sometimes. Take a deep breath and be kind to yourself — better days are ahead.";
+            case "neutral":
+                return "Every day doesn’t have to be perfect. Take a moment to relax and reflect.";
+            default:
+                return "No matter how you feel today, remember — it’s part of your journey, and you’re growing.";
+        }
+    }
+
+    public String suggestActivity(User user) {
+        int mood = user.getMoodScore();
+
+        if (mood >= 70) {
+            return "You seem upbeat! How about going for a walk or calling a friend?";
         } 
-        else if ("negative".equals(tone)) {
-            return "It’s completely okay to feel that way. You’re doing your best.";
+        else if (mood >= 40) {
+            return "Maybe listen to your favorite song or write about your day.";
         } 
         else {
-            return "Thanks for sharing your thoughts today.";
+            return "Try some deep breathing, meditation, or journaling about what’s bothering you.";
         }
-    }
-
-    public String remindUserIfInactive(User user) {
-        
-        LocalDate lastDate = user.getLastJournalDate(); 
-
-        if (lastDate == null) {
-            return "How have you been feeling lately? Want to jot a quick note?";
-        }
-
-        long days = ChronoUnit.DAYS.between(lastDate, LocalDate.now());
-        if (days >= 3) {
-            return "You haven’t written in a while — want to check in?";
-        }
-
-        return null;
-    }
-
-    public String encourageBasedOnMood(User user) {
-        int score = user.getMoodScore();
-        if (score > 70) {
-            return "Your positivity is shining through!";
-        }
-        if (score < 40) {
-            return "Be gentle with yourself today. Maybe take a short break.";
-        }
-        return "Keep expressing yourself — you’re doing great!";
     }
 }
