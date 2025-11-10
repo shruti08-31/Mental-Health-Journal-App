@@ -1,7 +1,8 @@
 package services;
 
 import model.User;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class MoodRecommendationService {
 
@@ -18,11 +19,11 @@ public class MoodRecommendationService {
     }
 
     public String remindUserIfInactive(User user) {
-        Date lastDate = user.getLastJournalDate();
+        LocalDate lastDate = user.getLastJournalDate();
         if (lastDate == null) 
             return "How have you been feeling lately? Want to jot a quick note?";
 
-        long days = (new Date().getTime() - lastDate.getTime()) / (1000L * 60 * 60 * 24);
+        long days = ChronoUnit.DAYS.between(lastDate, LocalDate.now());
         if (days >= 3)
             return "You haven’t written in a while — want to check in?";
         return null;
