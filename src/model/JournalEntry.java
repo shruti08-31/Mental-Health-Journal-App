@@ -1,5 +1,6 @@
 package model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -18,8 +19,25 @@ public class JournalEntry {
         this.title = mood + "_" + dateTime.toString();
     }
 
-    public String getMood() { return mood; }
-    public String getContent() { return content; }
-    public String getTitle() { return title; }
-    public LocalDateTime getDateTime() { return dateTime; }
+    public String getMood() { 
+        return mood; 
+    }
+
+    public String getContent() { 
+        return content; 
+    }
+
+    public String getTitle() { 
+        return title; 
+    }
+
+    public LocalDateTime getDateTime() { 
+        return dateTime; 
+    }
+
+   
+    public LocalDate getDate() {
+        return dateTime.toLocalDate();
+    }
 }
+
