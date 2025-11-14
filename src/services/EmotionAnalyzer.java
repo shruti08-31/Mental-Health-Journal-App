@@ -1,43 +1,58 @@
+
 package services;
 
 import model.User;
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 
 public class EmotionAnalyzer {
+   public EmotionAnalyzer() {
+   }
 
-    public String checkFeelingTone(String text) {
-        text = text.toLowerCase();
-        if (text.contains("sad") || text.contains("tired") || text.contains("angry")) 
-            return "negative";
-        if (text.contains("happy") || text.contains("excited") || text.contains("grateful")) 
-            return "positive";
-        return "neutral";
-    }
+   public String detectMoodFromText(String content) {
+      String lower = content.toLowerCase();
+      if (!lower.contains("happy") && !lower.contains("joy") && !lower.contains("excited")) {
+         if (!lower.contains("calm") && !lower.contains("relaxed") && !lower.contains("peace")) {
+            if (!lower.contains("sad") && !lower.contains("lonely") && !lower.contains("cry")) {
+               return !lower.contains("stress") && !lower.contains("angry") && !lower.contains("tired") ? "neutral" : "stressed";
+            } else {
+               return "sad";
+            }
+         } else {
+            return "calm";
+         }
+      } else {
+         return "happy";
+      }
+   }
 
-    public void updateMoodScore(User user, String tone) {
-        int score = user.getMoodScore();
-        switch (tone) {
-            case "positive" -> score += 5;
-            case "negative" -> score -= 5;
-        }
-        int clampedScore = Math.max(0, Math.min(100, score));
-        user.setMoodScore(clampedScore);
-    }
+   public void adjustMoodScore(User user, String mood) {
+      byte var10000;
+      switch (mood.toLowerCase()) {
+         case "happy":
+            var10000 = 10;
+            break;
+         case "calm":
+            var10000 = 5;
+            break;
+         case "sad":
+            var10000 = -5;
+            break;
+         case "stressed":
+            var10000 = -10;
+            break;
+         default:
+            var10000 = 0;
+      }
 
-    public void updateStreak(User user) {
-        LocalDate lastDate = user.getLastJournalDate();
-        LocalDate now = LocalDate.now();
+      int delta = var10000;
+      int tempScore = user.getMoodScore() + delta;
+      if (tempScore < 0) {
+         newScore = 0;
+      } else if (tempScore > 100) {
+         newScore = 100;
+      } else {
+         newScore = tempScore;
+      }
 
-        if (lastDate == null) {
-            user.setStreakCount(1);
-        } 
-        else {
-            long days = ChronoUnit.DAYS.between(lastDate, now);
-            if (days == 1)
-                user.setStreakCount(user.getStreakCount() + 1);
-            else if (days > 1)
-                user.setStreakCount(1);
-        }
-    }
+      user.setMoodScore(newScore);
+   }
 }
