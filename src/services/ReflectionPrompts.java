@@ -1,20 +1,13 @@
 package services;
 
-import java.util.*;
-
 public class ReflectionPrompts {
-
-    private static final Map<String, String> prompts = new HashMap<>();
-
-    static {
-        prompts.put("Happy_INFP", "What’s something you’re grateful for today?");
-        prompts.put("SAD_INFP", "What would bring you comfort right now?");
-        prompts.put("HAPPY_ESTJ", "What’s your biggest win today?");
-        prompts.put("SAD_ESTJ", "What action can you take to lift your mood?");
-    }
-
-    public String getPrompt(String mood, String personality) {
-        return prompts.getOrDefault(mood + "   " + personality,
-                "How are you feeling today about things?");
+    public String getPrompt(String mood, String personalityType) {
+        return switch (mood.toLowerCase()) {
+            case "happy" -> "What made you feel happy today?";
+            case "sad" -> "What do you think caused your sadness?";
+            case "calm" -> "What helped you feel at ease today?";
+            case "stressed" -> "What’s been weighing on your mind?";
+            default -> "What stands out most about your day?";
+        };
     }
 }
