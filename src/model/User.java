@@ -1,50 +1,35 @@
 package model;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 public class User {
-    private String username;
-    private String password;
-    private String personalityType;
-    private int moodScore;
-    private int streakCount;            // renamed for consistency
-    private LocalDate lastJournalDate;  // renamed for consistency
-    private List<JournalEntry> journalEntries;
+    private String name;
+    private LinkedList<JournalEntry> entries = new LinkedList<>();
+    private int moodScore; //track overall mood score
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.personalityType = "Unknown";
-        this.moodScore = 0;
-        this.streakCount = 0;
-        this.journalEntries = new ArrayList<>();
+    public User(String name) {
+        this.name = name;
+        this.moodScore = 5; // neutral start (1–10 scale)
     }
 
-    // --- Getters & Setters ---
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public LinkedList<JournalEntry> getEntries() {
+        return entries;
     }
 
-    public String getPassword() {
-        return password;
+    public void addEntry(JournalEntry entry) {
+        entries.add(entry);
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getPersonalityType() {
-        return personalityType;
-    }
-
-    public void setPersonalityType(String personalityType) {
-        this.personalityType = personalityType;
+    //Add getLastEntry()
+    public JournalEntry getLastEntry() {
+        if (entries.isEmpty())
+            return null;
+        JournalEntry El = entries.getLast();
+        return El;
     }
 
     public int getMoodScore() {
@@ -52,60 +37,17 @@ public class User {
     }
 
     public void setMoodScore(int moodScore) {
-        this.moodScore = moodScore;
-    }
-
-    public int getStreakCount() {
-        return streakCount;
-    }
-
-    public void setStreakCount(int streakCount) {
-        this.streakCount = streakCount;
-    }
-
-    public List<JournalEntry> getJournalEntries() {
-        return journalEntries;
-    }
-
-    public void addJournalEntry(JournalEntry entry) {
-        this.journalEntries.add(entry);
-        this.lastJournalDate = entry.getDate();  // update last journal date
-    }
-
-    public LocalDate getLastJournalDate() {
-        return lastJournalDate;
-    }
-
-    public void setLastJournalDate(LocalDate lastJournalDate) {
-        this.lastJournalDate = lastJournalDate;
-    }
-
-    
-    public LocalDate getLastEntryDate() {
-        if (journalEntries.isEmpty()) {
-            return null;
+        if (moodScore < 1) {
+                this.moodScore = 1;
         }
-        return journalEntries.get(journalEntries.size() - 1).getDate();
+        else if (moodScore > 10) {
+                this.moodScore = 10;
+        }
+        else {
+                this.moodScore = moodScore;
+            }
+        }
+
     }
 
-    public void increaseStreak() {
-        this.streakCount++;
-    }
 
-    public void resetStreak() {
-        this.streakCount = 0;
-    }
-
-    public void updateMoodScore(int value) {
-        this.moodScore += value;
-    }
-
-    @Override
-    public String toString() {
-        return "User: " + username
-                + "\nPersonality Type: " + personalityType
-                + "\nMood Score: " + moodScore
-                + "\nStreak Count: " + streakCount
-                + "\nLast Journal Date: " + (lastJournalDate != null ? lastJournalDate : "None");
-    }
-}
