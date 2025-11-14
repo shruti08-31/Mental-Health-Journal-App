@@ -12,7 +12,7 @@ public class JournalEntry {
     private LocalDateTime dateTime;
 
     public JournalEntry(String mood, String content) {
-        this.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();//isko khud se dal rhi hai isko mt dal hm isko user ke id se link kr denge so inko int hi rehne de
         this.mood = mood;
         this.content = content;
         this.dateTime = LocalDateTime.now();
